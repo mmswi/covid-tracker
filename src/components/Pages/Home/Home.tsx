@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import './Home.scss';
 import {getVaccineData} from '../../../services/vaccineTrackerService';
-import {ContinentDataInterface, CountryDataInterface} from '../../../interfaces/countryDataInteface';
+import {ContinentCountryDataInterface, CountryDataInterface} from '../../../interfaces/countryDataInteface';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
 
 const Home = () => {
@@ -44,29 +44,31 @@ const Home = () => {
             }
             continentData.countries = _.map(countries, (country: CountryDataInterface) => {
                 const countryData = getCountryData(country.data, date);
+
                 return {
                     name: country.location,
                     population: country.population,
-                    agedSixtyFiveOlder: country.aged_65_older,
-                    agedSeventyOlder: country.aged_70_older,
-                    cardiovascDeathRate: country.cardiovasc_death_rate,
-                    hospitalBedsPerThousand: country.hospital_beds_per_thousand,
-                    populationDensity: country.population_density,
-                    humanDevelopmentIndex: country.human_development_index,
-                    lifeExpectancy: country.life_expectancy,
-                    gdpPerCapita: country.gdp_per_capita,
-                    extremePoverty: country.extreme_poverty,
-                    peopleFullyVaccinated: countryData.people_fully_vaccinated,
-                    peopleFullyVaccinatedPerHundred: countryData.people_fully_vaccinated_per_hundred,
-                    peopleVaccinated: countryData.people_vaccinated,
-                    peopleVaccinatedPerHundred: countryData.people_vaccinated_per_hundred,
-                    newCases: countryData.new_cases,
-                    newDeaths: countryData.new_deaths,
-                    icuPatients: countryData.icu_patients,
-                    icuPatientsPerMillion: countryData.icu_patients_per_million,
+                    aged_65_older: country.aged_65_older,
+                    aged_70_older: country.aged_70_older,
+                    cardiovasc_death_rate: country.cardiovasc_death_rate,
+                    hospital_beds_per_thousand: country.hospital_beds_per_thousand,
+                    population_density: country.population_density,
+                    human_development_index: country.human_development_index,
+                    life_expectancy: country.life_expectancy,
+                    gdp_per_capita: country.gdp_per_capita,
+                    extreme_poverty: country.extreme_poverty,
+                    people_fully_vaccinated: countryData.people_fully_vaccinated,
+                    people_fully_vaccinated_per_hundred: countryData.people_fully_vaccinated_per_hundred,
+                    people_vaccinated: countryData.people_vaccinated,
+                    people_vaccinated_per_hundred: countryData.people_vaccinated_per_hundred,
+                    new_cases: countryData.new_cases,
+                    new_deaths: countryData.new_deaths,
+                    icu_patients: countryData.icu_patients,
+                    icu_patients_per_million: countryData.icu_patients_per_million,
                     icuPatientsPerFullyVaccinatedPerHundred: getIcuPerFullyVacc(countryData),
-                    totalBoosters: countryData.total_boosters,
-                    totalBoostersPerHundred: countryData.total_boosters_per_hundred
+                    total_boosters: countryData.total_boosters,
+                    total_boosters_per_hundred: countryData.total_boosters_per_hundred,
+                    time_stamps: country.time_stamps
                 }
             });
 
@@ -99,7 +101,7 @@ const Home = () => {
         return useMemo(() => _.orderBy(continentData?.countries, [sortBy], [sortDir]), [continentData?.countries, sortBy, sortDir]);
     }
 
-    const getContinentCountriesData = (continent: string): ContinentDataInterface[] => {
+    const getContinentCountriesData = (continent: string): ContinentCountryDataInterface[] => {
         const tableData = getMappedTableData(data, currentDate);
         const continentData = _.find(tableData, ['continentName', continent]);
 
@@ -152,6 +154,16 @@ const Home = () => {
         }</select>
     }
 
+    const DateTooltip = (props: any) => {
+        if (!props.timeStamps || props.currentDate !== CURRENT_DATE) {
+            return null;
+        }
+
+        return <div>
+                Data last reported on <span>{props.timeStamps[props.keyName]}</span>
+            </div>
+    }
+
 
     const DisplayContinents = (props: any) => {
         if (!props.data) {
@@ -173,13 +185,13 @@ const Home = () => {
                             <tr>
                                 <th>Country</th>
                                 <th>Ppl. fully vaccinated</th>
-                                <th><button onClick={() => {setSortBy(continentName, 'peopleFullyVaccinatedPerHundred')}}>Full vaccination %</button></th>
+                                <th><button onClick={() => {setSortBy(continentName, 'people_vaccinated_per_hundred')}}>Full vaccination %</button></th>
                                 <th>Ppl. vaccinated</th>
                                 <th>Ppl vaccination %</th>
                                 <th>New Cases</th>
                                 <th>New Deaths</th>
-                                <th><button onClick={() => {setSortBy(continentName, 'icuPatients')}}>ICU Patients</button></th>
-                                <th><button onClick={() => {setSortBy(continentName, 'icuPatientsPerMillion')}}>ICU Patients / mil</button></th>
+                                <th><button onClick={() => {setSortBy(continentName, 'icu_patients')}}>ICU Patients</button></th>
+                                <th><button onClick={() => {setSortBy(continentName, 'icu_patients_per_million')}}>ICU Patients / mil</button></th>
                                 <th><button onClick={() => {setSortBy(continentName, 'icuPatientsPerFullyVaccinatedPerHundred')}}>ICU Patients / fully vaccinated %</button></th>
                                 <th>Population</th>
                                 <th>Cardio death rate</th>
@@ -199,25 +211,31 @@ const Home = () => {
 
                                     return <tr key={country.name + index}>
                                         <td>{country.name}</td>
-                                        <td>{country.peopleFullyVaccinated}</td>
-                                        <td>{country.peopleFullyVaccinatedPerHundred}</td>
-                                        <td>{country.peopleVaccinated}</td>
-                                        <td>{country.peopleVaccinatedPerHundred}</td>
-                                        <td>{country.newCases}</td>
-                                        <td>{country.newDeaths}</td>
-                                        <td>{country.icuPatients}</td>
-                                        <td>{country.icuPatientsPerMillion}</td>
+                                        <td>
+                                            {country.people_fully_vaccinated}
+                                            <DateTooltip currentDate={currentDate} timeStamps={country.time_stamps} keyName='people_fully_vaccinated'></DateTooltip>
+                                        </td>
+                                        <td>
+                                            {country.people_fully_vaccinated_per_hundred}
+                                            <DateTooltip currentDate={currentDate} timeStamps={country.time_stamps} keyName='people_fully_vaccinated_per_hundred'></DateTooltip>
+                                        </td>
+                                        <td>{country.people_vaccinated}</td>
+                                        <td>{country.people_vaccinated_per_hundred}</td>
+                                        <td>{country.new_cases}</td>
+                                        <td>{country.new_deaths}</td>
+                                        <td>{country.icu_patients}</td>
+                                        <td>{country.icu_patients_per_million}</td>
                                         <td>{country.icuPatientsPerFullyVaccinatedPerHundred}</td>
                                         <td>{country.population}</td>
-                                        <td>{country.cardiovascDeathRate}</td>
-                                        <td>{country.hospitalBedsPerThousand}</td>
-                                        <td>{country.populationDensity}</td>
-                                        <td>{country.humanDevelopmentIndex}</td>
-                                        <td>{country.lifeExpectancy}</td>
-                                        <td>{country.gdpPerCapita}</td>
-                                        <td>{country.agedSixtyFiveOlder}</td>
-                                        <td>{country.agedSeventyOlder}</td>
-                                        <td>{country.extremePoverty}</td>
+                                        <td>{country.cardiovasc_death_rate}</td>
+                                        <td>{country.hospital_beds_per_thousand}</td>
+                                        <td>{country.population_density}</td>
+                                        <td>{country.human_development_index}</td>
+                                        <td>{country.life_expectancy}</td>
+                                        <td>{country.gdp_per_capita}</td>
+                                        <td>{country.aged_65_older}</td>
+                                        <td>{country.aged_70_older}</td>
+                                        <td>{country.extreme_poverty}</td>
                                     </tr>
                                 })
                             }

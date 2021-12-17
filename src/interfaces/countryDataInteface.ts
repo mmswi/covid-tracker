@@ -16,6 +16,7 @@ export interface CountryDataInterface {
     median_age: number;
     population: number;
     population_density: number;
+    time_stamps: any;
 }
 
 export interface CountryVaccineDataInteface {
@@ -55,27 +56,28 @@ export interface CountryVaccineDataInteface {
     total_vaccinations_per_hundred: number;
 }
 
-export interface ContinentDataInterface {
-    name: string,
-    population: number,
-    agedSixtyFiveOlder: number,
-    agedSeventyOlder: number,
-    cardiovascDeathRate: number,
-    hospitalBedsPerThousand: number,
-    populationDensity: number,
-    humanDevelopmentIndex: number,
-    lifeExpectancy: number,
-    gdpPerCapita: number,
-    extremePoverty: number,
-    peopleFullyVaccinated: number,
-    peopleFullyVaccinatedPerHundred: number,
-    peopleVaccinated: number,
-    peopleVaccinatedPerHundred: number,
-    newCases: number,
-    newDeaths: number,
-    icuPatients: number,
-    icuPatientsPerMillion: number,
-    icuPatientsPerFullyVaccinatedPerHundred: number | string,
-    totalBoosters: number,
-    totalBoostersPerHundred: number
+export interface ContinentCountryDataInterface {
+    name: string;
+    population: number;
+    aged_65_older: number;
+    aged_70_older: number;
+    cardiovasc_death_rate: number;
+    hospital_beds_per_thousand: number;
+    population_density: number;
+    human_development_index: number;
+    life_expectancy: number;
+    gdp_per_capita: number;
+    extreme_poverty: number;
+    people_fully_vaccinated: number;
+    people_fully_vaccinated_per_hundred: number;
+    people_vaccinated: number;
+    people_vaccinated_per_hundred: number;
+    new_cases: number;
+    new_deaths: number;
+    icu_patients: number;
+    icu_patients_per_million: number;
+    icuPatientsPerFullyVaccinatedPerHundred: number | string;
+    total_boosters: number;
+    total_boosters_per_hundred: number;
+    time_stamps: any;
 }

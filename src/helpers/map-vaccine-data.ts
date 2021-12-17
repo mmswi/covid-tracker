@@ -83,28 +83,28 @@ function groupByObjectKey(dataObject: any, groupByKey: string, groupedObject: an
 }
 
 function getCountryDataWithLastHundredDays(countryObject: any, lastHundredDays: any): any {
-    const {latestDayData, timeStamps} = getLatestCountryDataInLastDay(countryObject, lastHundredDays);
+    const {latestDayData, time_stamps} = getLatestCountryDataInLastDay(countryObject, lastHundredDays);
 
     return  {
         ...countryObject,
-        timeStamps,
+        time_stamps,
         data: [...lastHundredDays, latestDayData]
     };
 }
 
 function addDataTimeStamps(countryObject: any): any {
-    const timeStamps = getInitTimeStamps();
+    const time_stamps = getInitTimeStamps();
 
     return {
         ...countryObject,
-        timeStamps
+        time_stamps
     }
 }
 
 function getLatestCountryDataInLastDay(countryObject: any, daysData: any = []) {
     const latestDayData = getFilledDayObjectWithLastDayData(daysData);
     const firstPreviousDayIndex = daysData.length - 2;
-    let {timeStamps} = countryObject;
+    let {time_stamps} = countryObject;
 
     _.each(Object.keys(latestDayData), (key) => {
         if (key === 'date') {
@@ -118,8 +118,8 @@ function getLatestCountryDataInLastDay(countryObject: any, daysData: any = []) {
             if (keyValueIsUndefined) {
                 while(previousDayIndex >= 0 && keyValueIsUndefined) {
                     latestDayData[key] = daysData[previousDayIndex]?.[key];
-                    timeStamps = {
-                        ...timeStamps,
+                    time_stamps = {
+                        ...time_stamps,
                         [key]: daysData[previousDayIndex]?.date
                     }
 
@@ -132,7 +132,7 @@ function getLatestCountryDataInLastDay(countryObject: any, daysData: any = []) {
 
     return {
         latestDayData,
-        timeStamps
+        time_stamps
     };
 }
 
