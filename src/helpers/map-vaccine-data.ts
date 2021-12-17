@@ -39,27 +39,20 @@ const dayObject = {
 }
 
 export const mapByContinentAndLocation = (data: any): any => {
-    console.log('data: ', data);
-    const dataKeys = Object.keys(data);
+    const countryKeys = Object.keys(data);
     let datesOptions: any = [];
     let groupedByContinent: any = {};
-    let groupedByLocation: any = {};
 
 
-    _.each(dataKeys, (key) => {
-        const dataObject = data[key];
-        const {continent} = dataObject;
-        const {location} = dataObject;
-        const lastOneHundredDaysOfData = getLastHundredDays(dataObject);
-        console.log('dataObject ', dataObject)
+    _.each(countryKeys, (key) => {
+        const countryObject = addDataTimeStamps(data[key]);
+        const {continent} = countryObject;
+        const lastOneHundredDaysOfData = getLastHundredDays(countryObject);
 
         if (!_.isUndefined(continent)) {
-            let countryData = getCountryDataWithLastHundredDays(dataObject, lastOneHundredDaysOfData);
-            countryData = addDataTimeStamps(countryData);
+            const countryData = getCountryDataWithLastHundredDays(countryObject, lastOneHundredDaysOfData);
 
             groupedByContinent = groupByObjectKey(countryData, continent, groupedByContinent);
-        } else if (!_.isUndefined(location)) {
-            groupedByLocation = groupByObjectKey(dataObject, location, groupedByLocation);
         }
 
         if (datesOptions.length === 0) {
@@ -69,12 +62,10 @@ export const mapByContinentAndLocation = (data: any): any => {
 
     console.log('datesOptions: ', datesOptions)
     console.log('groupedByContinent: ', groupedByContinent)
-    console.log('groupedByLocation: ', groupedByLocation)
 
     return {
         datesOptions,
-        groupedByContinent,
-        groupedByLocation
+        groupedByContinent
     }
 }
 
@@ -92,11 +83,12 @@ function groupByObjectKey(dataObject: any, groupByKey: string, groupedObject: an
 }
 
 function getCountryDataWithLastHundredDays(countryObject: any, lastHundredDays: any): any {
-    const lastFilledDay = fillLastDayCountryData(lastHundredDays);
+    const {latestDayData, timeStamps} = getLatestCountryDataInLastDay(countryObject, lastHundredDays);
 
     return  {
         ...countryObject,
-        data: [...lastHundredDays, lastFilledDay]
+        timeStamps,
+        data: [...lastHundredDays, latestDayData]
     };
 }
 
@@ -109,31 +101,39 @@ function addDataTimeStamps(countryObject: any): any {
     }
 }
 
-function fillLastDayCountryData(data: any = []) {
-    const filledData = getFilledDayObjectWithLastDayData(data);
-    const firstPreviousDayIndex = data.length - 2;
+function getLatestCountryDataInLastDay(countryObject: any, daysData: any = []) {
+    const latestDayData = getFilledDayObjectWithLastDayData(daysData);
+    const firstPreviousDayIndex = daysData.length - 2;
+    let {timeStamps} = countryObject;
 
-    _.each(Object.keys(filledData), (key) => {
+    _.each(Object.keys(latestDayData), (key) => {
         if (key === 'date') {
-            filledData[key] = CURRENT_DATE;
+            latestDayData[key] = CURRENT_DATE;
             return;
         }
 
         let previousDayIndex = firstPreviousDayIndex;
-        let keyValueIsUndefined = _.isUndefined(filledData[key]);
+        let keyValueIsUndefined = _.isUndefined(latestDayData[key]);
 
             if (keyValueIsUndefined) {
                 while(previousDayIndex >= 0 && keyValueIsUndefined) {
-                    filledData[key] = data[previousDayIndex]?.[key];
+                    latestDayData[key] = daysData[previousDayIndex]?.[key];
+                    timeStamps = {
+                        ...timeStamps,
+                        [key]: daysData[previousDayIndex]?.date
+                    }
 
-                    keyValueIsUndefined = _.isUndefined(filledData[key])
+                    keyValueIsUndefined = _.isUndefined(latestDayData[key])
 
                     previousDayIndex--;
                 }
             }
         })
 
-    return filledData;
+    return {
+        latestDayData,
+        timeStamps
+    };
 }
 
 function getFilledDayObjectWithLastDayData(data: any) {
