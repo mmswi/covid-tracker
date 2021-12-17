@@ -19,22 +19,13 @@ const Home = () => {
     }
 
     const getIcuPerFullyVacc = (countryData: any): number | string => {
-        const icu_patients = getCountryPropData(countryData?.icu_patients);
-        const people_fully_vaccinated = getCountryPropData(countryData?.people_fully_vaccinated);
+        const {icu_patients, people_fully_vaccinated} = countryData;
 
         if (!icu_patients) {
             return 'N/A';
         }
 
         return ((icu_patients/people_fully_vaccinated) * 100).toFixed(5)
-    }
-
-    const getCountryPropData = (prop: any) => {
-        if (_.isObject(prop)) {
-            return (prop as any).value;
-        }
-
-        return prop;
     }
 
     const mapTableData = (data: any, date: any): any => {
@@ -65,17 +56,17 @@ const Home = () => {
                     lifeExpectancy: country.life_expectancy,
                     gdpPerCapita: country.gdp_per_capita,
                     extremePoverty: country.extreme_poverty,
-                    peopleFullyVaccinated: getCountryPropData(countryData.people_fully_vaccinated),
-                    peopleFullyVaccinatedPerHundred: getCountryPropData(countryData.people_fully_vaccinated_per_hundred),
-                    peopleVaccinated: getCountryPropData(countryData.people_vaccinated),
-                    peopleVaccinatedPerHundred: getCountryPropData(countryData.people_vaccinated_per_hundred),
-                    newCases: getCountryPropData(countryData.new_cases),
-                    newDeaths: getCountryPropData(countryData.new_deaths),
-                    icuPatients: getCountryPropData(countryData.icu_patients),
-                    icuPatientsPerMillion: getCountryPropData(countryData.icu_patients_per_million),
+                    peopleFullyVaccinated: countryData.people_fully_vaccinated,
+                    peopleFullyVaccinatedPerHundred: countryData.people_fully_vaccinated_per_hundred,
+                    peopleVaccinated: countryData.people_vaccinated,
+                    peopleVaccinatedPerHundred: countryData.people_vaccinated_per_hundred,
+                    newCases: countryData.new_cases,
+                    newDeaths: countryData.new_deaths,
+                    icuPatients: countryData.icu_patients,
+                    icuPatientsPerMillion: countryData.icu_patients_per_million,
                     icuPatientsPerFullyVaccinatedPerHundred: getIcuPerFullyVacc(countryData),
-                    totalBoosters: getCountryPropData(countryData.total_boosters),
-                    totalBoostersPerHundred: getCountryPropData(countryData.total_boosters_per_hundred)
+                    totalBoosters: countryData.total_boosters,
+                    totalBoostersPerHundred: countryData.total_boosters_per_hundred
                 }
             });
 
