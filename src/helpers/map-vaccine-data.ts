@@ -51,6 +51,7 @@ export const mapByContinentAndLocation = (data: any): any => {
         const {continent} = dataObject;
         const {location} = dataObject;
         const lastOneHundredDaysOfData = getLastHundredDays(dataObject);
+        console.log('dataObject ', dataObject)
 
         if (!_.isUndefined(continent)) {
             const countryData = getCountryDataWithLastHundredDays(dataObject, lastOneHundredDaysOfData);
@@ -90,12 +91,11 @@ function groupByObjectKey(dataObject: any, groupByKey: string, groupedObject: an
 }
 
 function getCountryDataWithLastHundredDays(countryObject: any, lastHundredDays: any): any {
-    const lastOneHundredDaysOfData = getLastHundredDays(countryObject);
-    const lastFilledDay = fillLastDayCountryData(lastOneHundredDaysOfData);
+    const lastFilledDay = fillLastDayCountryData(lastHundredDays);
 
     return  {
         ...countryObject,
-        data: [...lastOneHundredDaysOfData, lastFilledDay]
+        data: [...lastHundredDays, lastFilledDay]
     };
 }
 
