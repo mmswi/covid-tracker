@@ -54,7 +54,8 @@ export const mapByContinentAndLocation = (data: any): any => {
         console.log('dataObject ', dataObject)
 
         if (!_.isUndefined(continent)) {
-            const countryData = getCountryDataWithLastHundredDays(dataObject, lastOneHundredDaysOfData);
+            let countryData = getCountryDataWithLastHundredDays(dataObject, lastOneHundredDaysOfData);
+            countryData = addDataTimeStamps(countryData);
 
             groupedByContinent = groupByObjectKey(countryData, continent, groupedByContinent);
         } else if (!_.isUndefined(location)) {
@@ -97,6 +98,15 @@ function getCountryDataWithLastHundredDays(countryObject: any, lastHundredDays: 
         ...countryObject,
         data: [...lastHundredDays, lastFilledDay]
     };
+}
+
+function addDataTimeStamps(countryObject: any): any {
+    const timeStamps = getInitTimeStamps();
+    
+    return {
+        ...countryObject,
+        timeStamps
+    }
 }
 
 function fillLastDayCountryData(data: any = []) {
@@ -147,6 +157,18 @@ function mapCurrentDay(data: any) {
     })
 
     return filledData;
+}
+
+function getInitTimeStamps(): any {
+    const timeStamps: any = {
+        ...dayObject
+    };
+
+    _.each(Object.keys(timeStamps), (key) => {
+        timeStamps[key] = CURRENT_DATE
+    });
+
+    return timeStamps;
 }
 
 function getLastHundredDays(countryObject: any): any {
