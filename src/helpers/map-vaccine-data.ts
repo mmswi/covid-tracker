@@ -102,7 +102,7 @@ function getCountryDataWithLastHundredDays(countryObject: any, lastHundredDays: 
 
 function addDataTimeStamps(countryObject: any): any {
     const timeStamps = getInitTimeStamps();
-    
+
     return {
         ...countryObject,
         timeStamps
@@ -110,7 +110,7 @@ function addDataTimeStamps(countryObject: any): any {
 }
 
 function fillLastDayCountryData(data: any = []) {
-    const filledData = mapCurrentDay(data[data.length - 1]);
+    const filledData = getFilledDayObjectWithLastDayData(data);
     const firstPreviousDayIndex = data.length - 2;
 
     _.each(Object.keys(filledData), (key) => {
@@ -120,16 +120,13 @@ function fillLastDayCountryData(data: any = []) {
         }
 
         let previousDayIndex = firstPreviousDayIndex;
-        let keyValueIsUndefined = _.isUndefined(filledData[key].value);
+        let keyValueIsUndefined = _.isUndefined(filledData[key]);
 
             if (keyValueIsUndefined) {
                 while(previousDayIndex >= 0 && keyValueIsUndefined) {
-                    filledData[key] = {
-                        value: data[previousDayIndex]?.[key],
-                        timeProvided: data[previousDayIndex]?.date
-                    };
+                    filledData[key] = data[previousDayIndex]?.[key];
 
-                    keyValueIsUndefined = _.isUndefined(filledData[key].value)
+                    keyValueIsUndefined = _.isUndefined(filledData[key])
 
                     previousDayIndex--;
                 }
@@ -139,24 +136,11 @@ function fillLastDayCountryData(data: any = []) {
     return filledData;
 }
 
-function mapCurrentDay(data: any) {
-    const filledData = {
+function getFilledDayObjectWithLastDayData(data: any) {
+    return {
         ...dayObject,
-        ...data
-    };
-
-    _.each(Object.keys(filledData), (key) => {
-        if (key === 'date') {
-            return;
-        }
-
-        filledData[key] = {
-            value: filledData[key],
-            timeProvided: CURRENT_DATE
-        }
-    })
-
-    return filledData;
+        ...data[data.length - 1]
+    }    
 }
 
 function getInitTimeStamps(): any {
