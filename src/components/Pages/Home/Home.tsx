@@ -81,7 +81,7 @@ const Home = () => {
     }
 
 
-    const DisplayContinents = (props: any) => {
+    const ContinentTables = (props: any) => {
         if (!props.data) {
             return <div>loading....</div>;
         }
@@ -178,13 +178,13 @@ const Home = () => {
                 selectedDate={currentDate}
                 onDateSelect={handleDateChange}
             ></SelectDate>
-            <DisplayContinents 
+            <ContinentTables 
                 data={data}
                 currentDate={currentDate}
                 currentSortContinent={currentSort.continent}
                 currentSortDir={currentSort.sortDir}
                 currentSortBy={currentSort.sortBy}
-            ></DisplayContinents>
+            ></ContinentTables>
         </div>
     )
 };
