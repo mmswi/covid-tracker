@@ -4,6 +4,7 @@ import './Home.scss';
 import {getVaccineData} from '../../../services/vaccineTrackerService';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
 import {getContinentCountriesData} from '../../../helpers/map-vaccine-data';
+import SelectDate from '../../shared/SelectDate/SelectDate';
 
 const Home = () => {
     const [data, setData] = useState(null);
@@ -49,25 +50,6 @@ const Home = () => {
                 }
             })
         }
-    }
-
-    const SelectDate = (props: any) => {
-        const dates = props.data?.datesOptions || [CURRENT_DATE];
-
-        const handleChange = (event: any) => {
-            props.onDateSelect(event.target.value);
-        }
-
-        return <select value={props.selectedDate} onChange={handleChange}>{
-            _.map(dates, (date, index) => {
-                return <option
-                    key={date + index}
-                    value={date}
-                >
-                    {date}
-                </option>
-            })
-        }</select>
     }
 
     const DateTooltip = (props: any) => {
@@ -174,7 +156,7 @@ const Home = () => {
         <div className="Home">
             Home Component
             <SelectDate
-                data={data}
+                datesOptions={(data as any)?.datesOptions}
                 selectedDate={currentDate}
                 onDateSelect={handleDateChange}
             ></SelectDate>
