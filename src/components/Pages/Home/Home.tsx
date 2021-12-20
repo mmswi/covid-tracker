@@ -5,6 +5,7 @@ import {getVaccineData} from '../../../services/vaccineTrackerService';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
 import {getContinentCountriesData} from '../../../helpers/map-vaccine-data';
 import SelectDate from '../../shared/SelectDate/SelectDate';
+import DateTooltip from '../../shared/DateTooltip/DateTooltip';
 
 const Home = () => {
     const [data, setData] = useState(null);
@@ -52,16 +53,6 @@ const Home = () => {
         }
     }
 
-    const DateTooltip = (props: any) => {
-        if (!props.timeStamps || props.currentDate !== CURRENT_DATE) {
-            return null;
-        }
-
-        return <div>
-                Data last reported on <span>{props.timeStamps[props.keyName]}</span>
-            </div>
-    }
-
 
     const ContinentTables = (props: any) => {
         if (!props.data) {
@@ -70,6 +61,7 @@ const Home = () => {
 
         const {groupedByContinent} = props;
         const continentKeys = Object.keys(groupedByContinent);
+        const getTimeStamps = (country: any = {}) => country.time_stamps || {};
 
         return <div>{
             _.map(continentKeys, (continentKey, index) => {
@@ -114,16 +106,17 @@ const Home = () => {
                         <tbody>
                             {
                                 _.map(continentCountriesData, (country, index) => {
+                                    const timeStamps = getTimeStamps(country);
 
                                     return <tr key={country.name + index}>
                                         <td>{country.name}</td>
                                         <td>
                                             {country.people_fully_vaccinated}
-                                            <DateTooltip currentDate={currentDate} timeStamps={country.time_stamps} keyName='people_fully_vaccinated'></DateTooltip>
+                                            <DateTooltip isTooltipVisible={currentDate === CURRENT_DATE} timeStamp={timeStamps['people_fully_vaccinated']}></DateTooltip>
                                         </td>
                                         <td>
                                             {country.people_fully_vaccinated_per_hundred}
-                                            <DateTooltip currentDate={currentDate} timeStamps={country.time_stamps} keyName='people_fully_vaccinated_per_hundred'></DateTooltip>
+                                            <DateTooltip isTooltipVisible={currentDate === CURRENT_DATE} timeStamp={timeStamps['people_fully_vaccinated_per_hundred']}></DateTooltip>
                                         </td>
                                         <td>{country.people_vaccinated}</td>
                                         <td>{country.people_vaccinated_per_hundred}</td>
