@@ -68,7 +68,7 @@ const Home = () => {
             return <div>loading....</div>;
         }
 
-        const {groupedByContinent} = props.data;
+        const {groupedByContinent} = props;
         const continentKeys = Object.keys(groupedByContinent);
 
         return <div>{
@@ -162,6 +162,7 @@ const Home = () => {
             ></SelectDate>
             <ContinentTables 
                 data={data}
+                groupedByContinent={(data as any)?.groupedByContinent}
                 currentDate={currentDate}
                 currentSortContinent={currentSort.continent}
                 currentSortDir={currentSort.sortDir}
