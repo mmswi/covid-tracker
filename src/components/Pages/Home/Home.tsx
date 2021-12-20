@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import {useState, useEffect, useCallback, useMemo} from 'react';
 import './Home.scss';
 import {getVaccineData} from '../../../services/vaccineTrackerService';
-import {ContinentCountryDataInterface, CountryDataInterface} from '../../../interfaces/countryDataInteface';
+import {ContinentCountryDataInterface} from '../../../interfaces/countryDataInteface';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
+import { mapTableData } from '../../../helpers/map-vaccine-data';
 
 const Home = () => {
     const [data, setData] = useState(null);
@@ -13,68 +14,6 @@ const Home = () => {
         sortDir: ''
     })
     const [currentDate, setCurrentDate] = useState(CURRENT_DATE);
-
-    const getCountryData = (data: any, date: any): any => {
-        return _.find(data, ['date', date]) || {};
-    }
-
-    const getIcuPerFullyVacc = (countryData: any): number | string => {
-        const {icu_patients, people_fully_vaccinated} = countryData;
-
-        if (!icu_patients) {
-            return 'N/A';
-        }
-
-        return ((icu_patients/people_fully_vaccinated) * 100).toFixed(5)
-    }
-
-    const mapTableData = (data: any, date: any): any => {
-        if(!data) {
-            return;
-        }
-
-        const {groupedByContinent} = data;
-        const continentKeys = Object.keys(groupedByContinent);
-
-        return _.map(continentKeys, (continentKey) => {
-            const continentName = groupedByContinent[continentKey].keyName;
-            const countries = groupedByContinent[continentKey].values;
-            const continentData: any = {
-                continentName
-            }
-            continentData.countries = _.map(countries, (country: CountryDataInterface) => {
-                const countryData = getCountryData(country.data, date);
-
-                return {
-                    name: country.location,
-                    population: country.population,
-                    aged_65_older: country.aged_65_older,
-                    aged_70_older: country.aged_70_older,
-                    cardiovasc_death_rate: country.cardiovasc_death_rate,
-                    hospital_beds_per_thousand: country.hospital_beds_per_thousand,
-                    population_density: country.population_density,
-                    human_development_index: country.human_development_index,
-                    life_expectancy: country.life_expectancy,
-                    gdp_per_capita: country.gdp_per_capita,
-                    extreme_poverty: country.extreme_poverty,
-                    people_fully_vaccinated: countryData.people_fully_vaccinated,
-                    people_fully_vaccinated_per_hundred: countryData.people_fully_vaccinated_per_hundred,
-                    people_vaccinated: countryData.people_vaccinated,
-                    people_vaccinated_per_hundred: countryData.people_vaccinated_per_hundred,
-                    new_cases: countryData.new_cases,
-                    new_deaths: countryData.new_deaths,
-                    icu_patients: countryData.icu_patients,
-                    icu_patients_per_million: countryData.icu_patients_per_million,
-                    icuPatientsPerFullyVaccinatedPerHundred: getIcuPerFullyVacc(countryData),
-                    total_boosters: countryData.total_boosters,
-                    total_boosters_per_hundred: countryData.total_boosters_per_hundred,
-                    time_stamps: country.time_stamps
-                }
-            });
-
-            return continentData;
-        });
-    }
 
     const getData = useCallback(async () => {
         try {
