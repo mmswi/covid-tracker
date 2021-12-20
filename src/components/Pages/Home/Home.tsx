@@ -29,17 +29,12 @@ const Home = () => {
         getData();
     }, [getData]);
 
-    const getMappedTableData = (data: any, currentDate: any) => {
-        console.log('getting data for ', currentDate);
-        return mapTableData(data, currentDate);
-    }
-
     const getSortedContinentData = (continentData: {countries: []}, sortBy: string, sortDir: 'asc' | 'desc') => {
         return _.orderBy(continentData?.countries, [sortBy], [sortDir]);
     }
 
     const getContinentCountriesData = (continent: string): ContinentCountryDataInterface[] => {
-        const tableData = getMappedTableData(data, currentDate);
+        const tableData = mapTableData(data, currentDate);
         const continentData = _.find(tableData, ['continentName', continent]);
 
         if (currentSort.continent !== continent || !currentSort.sortDir) {
