@@ -31,13 +31,11 @@ const Home = () => {
 
     const getMappedTableData = (data: any, currentDate: any) => {
         console.log('getting data for ', currentDate);
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        return useMemo(() => mapTableData(data, currentDate), [data, currentDate])
+        return mapTableData(data, currentDate);
     }
 
     const getSortedContinentData = (continentData: {countries: []}, sortBy: string, sortDir: 'asc' | 'desc') => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        return useMemo(() => _.orderBy(continentData?.countries, [sortBy], [sortDir]), [continentData?.countries, sortBy, sortDir]);
+        return _.orderBy(continentData?.countries, [sortBy], [sortDir]);
     }
 
     const getContinentCountriesData = (continent: string): ContinentCountryDataInterface[] => {
