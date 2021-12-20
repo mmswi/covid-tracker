@@ -81,3 +81,12 @@ export interface ContinentCountryDataInterface {
     total_boosters_per_hundred: number;
     time_stamps: any;
 }
+
+export interface ContinentCountryDataGetterAttributesInterface {
+    continentName: string; 
+    data: string; 
+    currentDate: string; 
+    currentSortContinent: string;
+    currentSortDir: string; 
+    currentSortBy: string;
+}

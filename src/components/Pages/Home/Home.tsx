@@ -1,10 +1,9 @@
 import _ from 'lodash';
-import {useState, useEffect, useCallback, useMemo} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import './Home.scss';
 import {getVaccineData} from '../../../services/vaccineTrackerService';
-import {ContinentCountryDataInterface} from '../../../interfaces/countryDataInteface';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
-import { mapTableData } from '../../../helpers/map-vaccine-data';
+import {getContinentCountriesData} from '../../../helpers/map-vaccine-data';
 
 const Home = () => {
     const [data, setData] = useState(null);
@@ -28,21 +27,6 @@ const Home = () => {
     useEffect(() => {
         getData();
     }, [getData]);
-
-    const getSortedContinentData = (continentData: {countries: []}, sortBy: string, sortDir: 'asc' | 'desc') => {
-        return _.orderBy(continentData?.countries, [sortBy], [sortDir]);
-    }
-
-    const getContinentCountriesData = (continent: string): ContinentCountryDataInterface[] => {
-        const tableData = mapTableData(data, currentDate);
-        const continentData = _.find(tableData, ['continentName', continent]);
-
-        if (currentSort.continent !== continent || !currentSort.sortDir) {
-            return continentData.countries;
-        }
-
-        return getSortedContinentData(continentData, currentSort.sortBy, (currentSort.sortDir as 'asc' | 'desc'));
-    }
 
     const handleDateChange = (date: string) => {
         setCurrentDate(date);
@@ -108,7 +92,15 @@ const Home = () => {
         return <div>{
             _.map(continentKeys, (continentKey, index) => {
                 const continentName = groupedByContinent[continentKey].keyName;
-                const continentCountriesData = getContinentCountriesData(continentName);
+                const attributes = {
+                    continentName,
+                    data: props.data,
+                    currentDate: props.currentDate,
+                    currentSortContinent: props.currentSortContinent,
+                    currentSortDir: props.currentSortDir,
+                    currentSortBy: props.currentSortBy
+                }
+                const continentCountriesData = getContinentCountriesData(attributes);
 
                 return <div key={continentKey + index}>
                     <div>{continentName}</div>
@@ -186,7 +178,13 @@ const Home = () => {
                 selectedDate={currentDate}
                 onDateSelect={handleDateChange}
             ></SelectDate>
-            <DisplayContinents data={data}></DisplayContinents>
+            <DisplayContinents 
+                data={data}
+                currentDate={currentDate}
+                currentSortContinent={currentSort.continent}
+                currentSortDir={currentSort.sortDir}
+                currentSortBy={currentSort.sortBy}
+            ></DisplayContinents>
         </div>
     )
 };
