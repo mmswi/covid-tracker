@@ -15,7 +15,10 @@ const TableDataCell = (props: any) => {
 };
 
 TableDataCell.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   timeStamp: PropTypes.string,
   isTooltipVisible: PropTypes.bool
 }
