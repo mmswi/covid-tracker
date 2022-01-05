@@ -1,11 +1,9 @@
-import _ from 'lodash';
 import {useState, useEffect, useCallback} from 'react';
 import './Home.scss';
 import {getVaccineData} from '../../../services/vaccineTrackerService';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
-import {getContinentCountriesData} from '../../../helpers/map-vaccine-data';
 import SelectDate from '../../shared/SelectDate/SelectDate';
-import ContinentTable from '../../shared/ContinentTable/ContinentTable';
+import ContinentTables from './ContinentTables/ContinentTables';
 
 const Home = () => {
     const [data, setData] = useState(null);
@@ -54,38 +52,6 @@ const Home = () => {
     }
 
 
-    const ContinentTables = (props: any) => {
-        if (!props.data) {
-            return <div>loading....</div>;
-        }
-
-        const {groupedByContinent} = props;
-        const continentKeys = Object.keys(groupedByContinent);
-
-        return <div>{
-            _.map(continentKeys, (continentKey, index) => {
-                const continentName = groupedByContinent[continentKey].keyName;
-                const attributes = {
-                    continentName,
-                    data: props.data,
-                    currentDate: props.currentDate,
-                    currentSortContinent: props.currentSortContinent,
-                    currentSortDir: props.currentSortDir,
-                    currentSortBy: props.currentSortBy
-                }
-                const continentCountriesData = getContinentCountriesData(attributes);
-
-                return <ContinentTable 
-                            key={continentKey}
-                            continentName={continentName}
-                            currentDate={currentDate}
-                            continentCountriesData={continentCountriesData}
-                            setSortBy={setSortBy}
-                        ></ContinentTable>
-            })
-        }</div>
-    }
-
     return (
         <div className="Home">
             Home Component
@@ -97,6 +63,7 @@ const Home = () => {
             <ContinentTables 
                 data={data}
                 groupedByContinent={(data as any)?.groupedByContinent}
+                setSortBy={setSortBy}
                 currentDate={currentDate}
                 currentSortContinent={currentSort.continent}
                 currentSortDir={currentSort.sortDir}
