@@ -5,7 +5,6 @@ import {getVaccineData} from '../../../services/vaccineTrackerService';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
 import {getContinentCountriesData} from '../../../helpers/map-vaccine-data';
 import SelectDate from '../../shared/SelectDate/SelectDate';
-import DateTooltip from '../../shared/DateTooltip/DateTooltip';
 import ContinentTable from '../../shared/ContinentTable/ContinentTable';
 
 const Home = () => {
