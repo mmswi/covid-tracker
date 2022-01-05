@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CURRENT_DATE } from '../../../dictionary/vaccineDataDictionary';
 import { TABLE_COLUMNS } from '../../../helpers/tableColumns';
 import DateTooltip from '../DateTooltip/DateTooltip';
+import TableHeadCell from '../TableHeadCell/TableHeadCell';
 import './ContinentTable.scss';
 
 const ContinentTable = (props: any) => {
@@ -16,13 +17,13 @@ const ContinentTable = (props: any) => {
                 <tr>
                   {
                     _.map(TABLE_COLUMNS, (data): any => (
-                      <th key={data.key}>
-                        <button 
-                          onClick={() => {setSortBy(continentName, data.key)}}
-                        >
-                          {data.label}
-                        </button>
-                      </th>
+                      <TableHeadCell
+                        key={data.key}
+                        setSortBy={setSortBy}
+                        continentName={continentName}
+                        sortKey={data.key}
+                        label={data.label}
+                      ></TableHeadCell>
                     ))
                   }
                 </tr>
