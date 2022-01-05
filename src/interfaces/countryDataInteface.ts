@@ -86,7 +86,6 @@ export interface ContinentCountryDataGetterAttributesInterface {
     continentName: string; 
     dataByContinent: object; 
     currentDate: string; 
-    currentSortContinent: string;
     currentSortDir: string; 
     currentSortBy: string;
 }

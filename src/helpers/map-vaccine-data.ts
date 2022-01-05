@@ -74,7 +74,7 @@ export function getContinentCountriesData(attributes: ContinentCountryDataGetter
     const tableData = mapTableData(attributes.dataByContinent, attributes.currentDate);
     const continentData = _.find(tableData, ['continentName', attributes.continentName]);
 
-    if (attributes.currentSortContinent !== attributes.continentName || !attributes.currentSortDir) {
+    if (!attributes.currentSortDir) {
         return continentData.countries;
     }
 

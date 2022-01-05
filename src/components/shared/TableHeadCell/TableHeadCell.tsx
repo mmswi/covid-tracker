@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 
 const TableHeadCell = (props: any) => {
-  const {setSortBy, continentName, sortKey, label} = props;
+  const {setSortBy, sortKey, label} = props;
   
   return <th>
     <button 
-      onClick={() => {setSortBy(continentName, sortKey)}}
+      onClick={() => {setSortBy(sortKey)}}
     >
       {label}
     </button>
@@ -16,7 +16,6 @@ const TableHeadCell = (props: any) => {
 
 TableHeadCell.propTypes = {
   setSortBy: PropTypes.func,
-  continentName: PropTypes.string,
   sortKey: PropTypes.string,
   label: PropTypes.string
 }
