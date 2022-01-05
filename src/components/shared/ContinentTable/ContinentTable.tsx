@@ -54,7 +54,6 @@ const ContinentTable = (props: any) => {
 
 ContinentTable.propTypes = {
   setSortBy: PropTypes.func,
-  continentKey: PropTypes.string,
   continentName: PropTypes.string,
   currentDate: PropTypes.string,
   continentCountriesData: PropTypes.array
