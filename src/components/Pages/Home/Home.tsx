@@ -7,11 +7,6 @@ import ContinentTables from './ContinentTables/ContinentTables';
 
 const Home = () => {
     const [data, setData] = useState(null);
-    const [currentSort, setCurrentSort] = useState<{[key: string]: string}>({
-        continent: '',
-        sortBy: '',
-        sortDir: ''
-    })
     const [currentDate, setCurrentDate] = useState(CURRENT_DATE);
 
     const getData = useCallback(async () => {
@@ -33,25 +28,6 @@ const Home = () => {
         console.log('currentDate ', currentDate);
     }
 
-    const setSortBy = (continent: string, sortBy: string) => {
-        if (continent !== currentSort.continent || (continent === currentSort.continent && sortBy !== currentSort.sortBy)) {
-            setCurrentSort({
-                continent,
-                sortBy,
-                sortDir: 'asc'
-            })
-        } else if (continent === currentSort.continent && sortBy === currentSort.sortBy) {
-            const sortDir = currentSort.sortDir === 'asc' ? 'desc' : 'asc';
-            setCurrentSort(prevState => {
-                return {
-                    ...prevState,
-                    sortDir
-                }
-            })
-        }
-    }
-
-
     return (
         <div className="Home">
             Home Component
@@ -63,11 +39,7 @@ const Home = () => {
             <ContinentTables 
                 data={data}
                 groupedByContinent={(data as any)?.groupedByContinent}
-                setSortBy={setSortBy}
                 currentDate={currentDate}
-                currentSortContinent={currentSort.continent}
-                currentSortDir={currentSort.sortDir}
-                currentSortBy={currentSort.sortBy}
             ></ContinentTables>
         </div>
     )
