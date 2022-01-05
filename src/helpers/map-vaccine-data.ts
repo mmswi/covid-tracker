@@ -71,7 +71,7 @@ export const mapByContinentAndLocation = (data: any): any => {
 }
 
 export function getContinentCountriesData(attributes: ContinentCountryDataGetterAttributesInterface): ContinentCountryDataInterface[] {
-    const tableData = mapTableData(attributes.data, attributes.currentDate);
+    const tableData = mapTableData(attributes.dataByContinent, attributes.currentDate);
     const continentData = _.find(tableData, ['continentName', attributes.continentName]);
 
     if (attributes.currentSortContinent !== attributes.continentName || !attributes.currentSortDir) {
@@ -186,17 +186,16 @@ function getDatesOptions(days: any[]): string[] {
     return datesOptions;
 }
 
-function mapTableData(data: any, date: any): any {
-    if(!data) {
+function mapTableData(dataByContinent: any, date: any): any {
+    if(!dataByContinent) {
         return;
     }
 
-    const {groupedByContinent} = data;
-    const continentKeys = Object.keys(groupedByContinent);
+    const continentKeys = Object.keys(dataByContinent);
 
     return _.map(continentKeys, (continentKey) => {
-        const continentName = groupedByContinent[continentKey].keyName;
-        const countries = groupedByContinent[continentKey].values;
+        const continentName = dataByContinent[continentKey].keyName;
+        const countries = dataByContinent[continentKey].values;
         const continentData: any = {
             continentName
         }

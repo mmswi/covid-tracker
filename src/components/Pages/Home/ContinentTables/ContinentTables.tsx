@@ -7,8 +7,7 @@ import './ContinentTables.scss';
 
 const ContinentTables = (props: any) => {
   const {
-    data,
-    groupedByContinent,
+    dataByContinent,
     currentDate
   } = props;
 
@@ -36,19 +35,19 @@ const ContinentTables = (props: any) => {
     }
 }
   
-  if (!data) {
+  if (!dataByContinent) {
       return <div>loading....</div>;
   }
 
-  const continentKeys = Object.keys(groupedByContinent);
+  const continentKeys = Object.keys(dataByContinent);
 
   return <div>{
       _.map(continentKeys, (continentKey: string) => {
-          const continentName = groupedByContinent[continentKey].keyName;
+          const continentName = dataByContinent[continentKey].keyName;
           const attributes = {
               continentName,
-              data: data,
-              currentDate: currentDate,
+              currentDate,
+              dataByContinent,
               currentSortContinent: currentSort.continent,
               currentSortDir: currentSort.sortDir,
               currentSortBy: currentSort.sortBy
@@ -68,7 +67,7 @@ const ContinentTables = (props: any) => {
 
 ContinentTables.propTypes = {
   data: PropTypes.object,
-  groupedByContinent: PropTypes.object,
+  dataByContinent: PropTypes.object,
   currentDate: PropTypes.string,
 }
 

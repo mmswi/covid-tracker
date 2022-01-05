@@ -37,8 +37,7 @@ const Home = () => {
                 onDateSelect={handleDateChange}
             ></SelectDate>
             <ContinentTables 
-                data={data}
-                groupedByContinent={(data as any)?.groupedByContinent}
+                dataByContinent={(data as any)?.groupedByContinent}
                 currentDate={currentDate}
             ></ContinentTables>
         </div>
