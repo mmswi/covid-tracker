@@ -16,7 +16,7 @@ const ContinentTable = (props: any) => {
                 <tr>
                   {
                     _.map(TABLE_COLUMNS, (data): any => (
-                      <th>
+                      <th key={data.key}>
                         <button 
                           onClick={() => {setSortBy(continentName, data.key)}}
                         >
@@ -35,7 +35,7 @@ const ContinentTable = (props: any) => {
                       return <tr key={country.name + index}>
                                 {
                                   _.map(TABLE_COLUMNS, (data): any => (
-                                    <td>
+                                    <td key={data.key}>
                                       {country[data.key]}
                                       <DateTooltip 
                                         isTooltipVisible={currentDate === CURRENT_DATE} 
