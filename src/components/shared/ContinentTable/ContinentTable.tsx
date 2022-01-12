@@ -1,15 +1,18 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { CURRENT_DATE } from '../../../dictionary/vaccineDataDictionary';
 import { getContinentCountriesData } from '../../../helpers/map-vaccine-data';
 import { TABLE_COLUMNS } from '../../../helpers/tableColumns';
+import { DataContext } from '../../../App';
 import TableDataCell from '../TableDataCell/TableDataCell';
 import TableHeadCell from '../TableHeadCell/TableHeadCell';
 import './ContinentTable.scss';
 
 const ContinentTable = (props: any) => {
-  const {continentName, dataByContinent, currentDate} = props;
+  const {continentName, currentDate} = props;
+  const data = useContext(DataContext);
+  const dataByContinent = (data as any)?.groupedByContinent;
   const [currentSort, setCurrentSort] = useState<{[key: string]: string}>({
     sortBy: '',
     sortDir: ''
@@ -87,7 +90,6 @@ ContinentTable.propTypes = {
   continentName: PropTypes.string,
   currentDate: PropTypes.string,
   continentCountriesData: PropTypes.array,
-  dataByContinent: PropTypes.object,
 }
 
 export default ContinentTable;

@@ -1,13 +1,16 @@
 import _ from 'lodash';
+import { useContext } from "react";
 import PropTypes from 'prop-types';
 import ContinentTable from '../../shared/ContinentTable/ContinentTable';
+import { DataContext } from '../../../App';
 import './ContinentTables.scss';
 
 const ContinentTables = (props: any) => {
-  const {
-    dataByContinent,
-    currentDate
-  } = props;
+  const { currentDate } = props;
+  const data = useContext(DataContext);
+  const dataByContinent = (data as any)?.groupedByContinent;
+
+  console.log('dataByContinent: ', dataByContinent);
   
   if (!dataByContinent) {
       return <div>loading....</div>;
@@ -22,7 +25,6 @@ const ContinentTables = (props: any) => {
           return <ContinentTable 
                       key={continentKey}
                       continentName={continentName}
-                      dataByContinent={dataByContinent}
                       currentDate={currentDate}
                   ></ContinentTable>
       })
@@ -31,7 +33,6 @@ const ContinentTables = (props: any) => {
 
 ContinentTables.propTypes = {
   data: PropTypes.object,
-  dataByContinent: PropTypes.object,
   currentDate: PropTypes.string,
 }
 

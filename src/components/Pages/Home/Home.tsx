@@ -17,12 +17,10 @@ const Home = (props: any) => {
         <div className="Home">
             Home Component
             <SelectDate
-                datesOptions={(data as any)?.datesOptions}
                 selectedDate={currentDate}
                 onDateSelect={handleDateChange}
             ></SelectDate>
             <ContinentTables 
-                dataByContinent={(data as any)?.groupedByContinent}
                 currentDate={currentDate}
             ></ContinentTables>
         </div>

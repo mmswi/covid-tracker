@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, createContext } from "react";
 import {
     BrowserRouter,
     Routes,
@@ -27,14 +27,17 @@ function App() {
 
   return (
     <div className="App">
+      <DataContext.Provider value={data}>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home data={data} />}>
+                <Route path="/" element={<Home />}>
                 </Route>
             </Routes>
         </BrowserRouter>
+      </DataContext.Provider>
     </div>
   );
 }
 
+export const DataContext = createContext(null);
 export default App;
