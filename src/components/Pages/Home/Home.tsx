@@ -3,7 +3,7 @@ import './Home.scss';
 import {getVaccineData} from '../../../services/vaccineTrackerService';
 import {CURRENT_DATE} from '../../../dictionary/vaccineDataDictionary';
 import SelectDate from '../../shared/SelectDate/SelectDate';
-import ContinentTables from './ContinentTables/ContinentTables';
+import ContinentTables from '../../children/ContinentTables/ContinentTables';
 
 const Home = () => {
     const [data, setData] = useState(null);

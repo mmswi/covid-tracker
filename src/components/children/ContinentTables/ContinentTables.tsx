@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import ContinentTable from '../../../shared/ContinentTable/ContinentTable';
+import ContinentTable from '../../shared/ContinentTable/ContinentTable';
 import './ContinentTables.scss';
 
 const ContinentTables = (props: any) => {
