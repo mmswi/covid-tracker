@@ -4,7 +4,7 @@ import { CURRENT_DATE } from '../../../dictionary/vaccineDataDictionary';
 import SelectDate from '../../shared/SelectDate/SelectDate';
 import ContinentTables from '../../children/ContinentTables/ContinentTables';
 
-function Home(props: any) {
+function Home() {
   const [currentDate, setCurrentDate] = useState(CURRENT_DATE);
 
   const handleDateChange = (date: string) => {

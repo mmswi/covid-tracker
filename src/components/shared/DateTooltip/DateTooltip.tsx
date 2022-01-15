@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import './DateTooltip.scss';
 
 function DateTooltip(props: any) {
-  if (!props.timeStamp || !props.isTooltipVisible) {
+  const { timeStamp, isTooltipVisible } = props;
+  if (!timeStamp || !isTooltipVisible) {
     return null;
   }
 
@@ -10,7 +11,7 @@ function DateTooltip(props: any) {
     <div>
       Data last reported on
       {' '}
-      <span>{props.timeStamp}</span>
+      <span>{timeStamp}</span>
     </div>
   );
 }

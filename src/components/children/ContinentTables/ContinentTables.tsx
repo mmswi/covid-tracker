@@ -38,7 +38,6 @@ function ContinentTables(props: any) {
 }
 
 ContinentTables.propTypes = {
-  data: PropTypes.object,
   currentDate: PropTypes.string,
 };
 

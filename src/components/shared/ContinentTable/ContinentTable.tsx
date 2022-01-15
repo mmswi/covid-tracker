@@ -50,12 +50,12 @@ function ContinentTable(props: any) {
         <thead>
           <tr>
             {
-                    _.map(TABLE_COLUMNS, (data): any => (
+                    _.map(TABLE_COLUMNS, (tableData): any => (
                       <TableHeadCell
-                        key={data.key}
+                        key={tableData.key}
                         setSortBy={setSortBy}
-                        sortKey={data.key}
-                        label={data.label}
+                        sortKey={tableData.key}
+                        label={tableData.label}
                       />
                     ))
                   }
@@ -69,12 +69,12 @@ function ContinentTable(props: any) {
                     return (
                       <tr key={country.name + index}>
                         {
-                                  _.map(TABLE_COLUMNS, (data): any => (
+                                  _.map(TABLE_COLUMNS, (tableData): any => (
                                     <TableDataCell
-                                      key={data.key}
-                                      label={(country as any)[data.key]}
+                                      key={tableData.key}
+                                      label={(country as any)[tableData.key]}
                                       isTooltipVisible={currentDate === CURRENT_DATE}
-                                      timeStamp={timeStamps[data.key]}
+                                      timeStamp={timeStamps[tableData.key]}
                                     />
                                   ))
                                 }
@@ -91,7 +91,6 @@ function ContinentTable(props: any) {
 ContinentTable.propTypes = {
   continentName: PropTypes.string,
   currentDate: PropTypes.string,
-  continentCountriesData: PropTypes.array,
 };
 
 export default ContinentTable;

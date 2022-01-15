@@ -6,15 +6,16 @@ import { DataContext } from '../../../App';
 import './SelectDate.scss';
 
 function SelectDate(props: any) {
+  const { selectedDate, onDateSelect } = props;
   const data = useContext(DataContext);
   const dates = (data as any)?.datesOptions || [CURRENT_DATE];
 
   const handleChange = (event: any) => {
-    props.onDateSelect(event.target.value);
+    onDateSelect(event.target.value);
   };
 
   return (
-    <select value={props.selectedDate} onChange={handleChange}>
+    <select value={selectedDate} onChange={handleChange}>
       {
         _.map(dates, (date, index) => (
           <option

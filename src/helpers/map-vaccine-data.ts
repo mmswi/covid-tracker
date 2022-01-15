@@ -187,7 +187,7 @@ function getDatesOptions(days: any[]): string[] {
 
 function mapTableData(dataByContinent: any, date: any): any {
   if (!dataByContinent) {
-    return;
+    return [];
   }
 
   const continentKeys = Object.keys(dataByContinent);
