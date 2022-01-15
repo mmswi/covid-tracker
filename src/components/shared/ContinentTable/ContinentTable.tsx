@@ -8,7 +8,7 @@ import './ContinentTable.scss';
 import WithSort from '../WithSort/WithSort';
 
 function ContinentTable(props: any) {
-  const { continentName, currentDate } = props;
+  const { continentKey, continentName, currentDate } = props;
   const data = useContext(DataContext);
   const dataByContinent = (data as any)?.groupedByContinent;
   const attributes = {
@@ -16,6 +16,7 @@ function ContinentTable(props: any) {
     currentDate,
     dataByContinent,
   };
+  const navColumnKeys = [CONTINENT_TABLE_COLUMNS[0].key];
   const continentCountriesData = getContinentCountriesData(attributes);
 
   const SortedTable = WithSort(SortableTable, continentCountriesData);
@@ -23,12 +24,18 @@ function ContinentTable(props: any) {
   return (
     <div>
       <div>{continentName}</div>
-      <SortedTable tableColumns={CONTINENT_TABLE_COLUMNS} currentDate={currentDate} />
+      <SortedTable
+        tableColumns={CONTINENT_TABLE_COLUMNS}
+        currentDate={currentDate}
+        navColumnKeys={navColumnKeys}
+        continentKey={continentKey}
+      />
     </div>
   );
 }
 
 ContinentTable.propTypes = {
+  continentKey: PropTypes.string,
   continentName: PropTypes.string,
   currentDate: PropTypes.string,
 };

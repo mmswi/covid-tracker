@@ -10,8 +10,6 @@ function ContinentTables(props: any) {
   const data = useContext(DataContext);
   const dataByContinent = (data as any)?.groupedByContinent;
 
-  console.log('dataByContinent: ', dataByContinent);
-
   if (!dataByContinent) {
     return <div>loading....</div>;
   }
@@ -27,6 +25,7 @@ function ContinentTables(props: any) {
         return (
           <ContinentTable
             key={continentKey}
+            continentKey={continentKey}
             continentName={continentName}
             currentDate={currentDate}
           />

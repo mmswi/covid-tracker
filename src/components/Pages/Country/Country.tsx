@@ -3,11 +3,17 @@ import { useParams } from 'react-router-dom';
 import './Country.scss';
 
 function Country() {
-  const { name } = useParams();
+  const { continent, country } = useParams();
 
   return (
     <div className="Country">
-      <h1>{name}</h1>
+      <h1>
+        {continent}
+        {' '}
+        and
+        {' '}
+        {country}
+      </h1>
     </div>
   );
 }

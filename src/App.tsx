@@ -34,7 +34,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/country/:name" element={<Country />} />
+            <Route path="/name/:continent/:country" element={<Country />} />
           </Routes>
         </BrowserRouter>
       </DataContext.Provider>
