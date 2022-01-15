@@ -1,89 +1,29 @@
-import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { useState, useContext } from 'react';
-import { CURRENT_DATE } from '../../../dictionary/vaccineDataDictionary';
+import { useContext } from 'react';
 import { getContinentCountriesData } from '../../../helpers/map-vaccine-data';
 import { CONTINENT_TABLE_COLUMNS } from '../../../helpers/tableColumns';
 import { DataContext } from '../../../App';
-import TableDataCell from '../TableDataCell/TableDataCell';
-import TableHeadCell from '../TableHeadCell/TableHeadCell';
+import SortableTable from '../SortableTable/SortableTable';
 import './ContinentTable.scss';
+import WithSort from '../WithSort/WithSort';
 
 function ContinentTable(props: any) {
   const { continentName, currentDate } = props;
   const data = useContext(DataContext);
   const dataByContinent = (data as any)?.groupedByContinent;
-  const [currentSort, setCurrentSort] = useState<{[key: string]: string}>({
-    sortBy: '',
-    sortDir: '',
-  });
   const attributes = {
     continentName,
     currentDate,
     dataByContinent,
-    currentSortDir: currentSort.sortDir,
-    currentSortBy: currentSort.sortBy,
   };
   const continentCountriesData = getContinentCountriesData(attributes);
 
-  const getTimeStamps = (country: any = {}) => country.time_stamps || {};
-  const setSortBy = (sortBy: string) => {
-    if (sortBy !== currentSort.sortBy) {
-      setCurrentSort({
-        sortBy,
-        sortDir: 'asc',
-      });
-    } else {
-      const sortDir = currentSort.sortDir === 'asc' ? 'desc' : 'asc';
-
-      setCurrentSort((prevState) => ({
-        ...prevState,
-        sortDir,
-      }));
-    }
-  };
+  const SortedTable = WithSort(SortableTable, continentCountriesData);
 
   return (
     <div>
       <div>{continentName}</div>
-      <table>
-        <thead>
-          <tr>
-            {
-                    _.map(CONTINENT_TABLE_COLUMNS, (tableData): any => (
-                      <TableHeadCell
-                        key={tableData.key}
-                        setSortBy={setSortBy}
-                        sortKey={tableData.key}
-                        label={tableData.label}
-                      />
-                    ))
-                  }
-          </tr>
-        </thead>
-        <tbody>
-          {
-                  _.map(continentCountriesData, (country, index) => {
-                    const timeStamps = getTimeStamps(country);
-
-                    return (
-                      <tr key={country.name + index}>
-                        {
-                                  _.map(CONTINENT_TABLE_COLUMNS, (tableData): any => (
-                                    <TableDataCell
-                                      key={tableData.key}
-                                      label={(country as any)[tableData.key]}
-                                      isTooltipVisible={currentDate === CURRENT_DATE}
-                                      timeStamp={timeStamps[tableData.key]}
-                                    />
-                                  ))
-                                }
-                      </tr>
-                    );
-                  })
-                }
-        </tbody>
-      </table>
+      <SortedTable tableColumns={CONTINENT_TABLE_COLUMNS} currentDate={currentDate} />
     </div>
   );
 }

@@ -73,11 +73,7 @@ export function getContinentCountriesData(attributes: ContinentCountryDataGetter
   const tableData = mapTableData(attributes.dataByContinent, attributes.currentDate);
   const continentData = _.find(tableData, ['continentName', attributes.continentName]);
 
-  if (!attributes.currentSortDir) {
-    return continentData.countries;
-  }
-
-  return getSortedContinentData(continentData, attributes.currentSortBy, (attributes.currentSortDir as 'asc' | 'desc'));
+  return continentData.countries;
 }
 
 function groupByObjectKey(dataObject: any, groupByKey: string, groupedObject: any) {
@@ -244,8 +240,4 @@ function getIcuPerFullyVacc(countryData: any): number | string {
   }
 
   return ((icu_patients / people_fully_vaccinated) * 100).toFixed(5);
-}
-
-function getSortedContinentData(continentData: {countries: []}, sortBy: string, sortDir: 'asc' | 'desc') {
-  return _.orderBy(continentData?.countries, [sortBy], [sortDir]);
 }
