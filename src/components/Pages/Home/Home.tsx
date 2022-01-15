@@ -6,7 +6,6 @@ import ContinentTables from '../../children/ContinentTables/ContinentTables';
 
 function Home(props: any) {
   const [currentDate, setCurrentDate] = useState(CURRENT_DATE);
-  const { data } = props;
 
   const handleDateChange = (date: string) => {
     setCurrentDate(date);
