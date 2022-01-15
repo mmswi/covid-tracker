@@ -7,6 +7,7 @@ import {
   Route,
 } from 'react-router-dom';
 import './App.scss';
+import Country from './components/pages/Country/Country';
 import Home from './components/pages/Home/Home';
 import { getVaccineData } from './services/vaccineTrackerService';
 
@@ -33,6 +34,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/country/:name" element={<Country />} />
           </Routes>
         </BrowserRouter>
       </DataContext.Provider>
