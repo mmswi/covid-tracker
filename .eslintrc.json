@@ -21,7 +21,9 @@
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
     "react/button-has-type": "off",
-    "no-use-before-define": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": "off",
+    "no-use-before-define": "off",    
     "no-plusplus": "off",
     "max-len": "off",
     "import/extensions": [
