@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useState, useContext } from 'react';
 import { CURRENT_DATE } from '../../../dictionary/vaccineDataDictionary';
 import { getContinentCountriesData } from '../../../helpers/map-vaccine-data';
-import { TABLE_COLUMNS } from '../../../helpers/tableColumns';
+import { CONTINENT_TABLE_COLUMNS } from '../../../helpers/tableColumns';
 import { DataContext } from '../../../App';
 import TableDataCell from '../TableDataCell/TableDataCell';
 import TableHeadCell from '../TableHeadCell/TableHeadCell';
@@ -50,7 +50,7 @@ function ContinentTable(props: any) {
         <thead>
           <tr>
             {
-                    _.map(TABLE_COLUMNS, (tableData): any => (
+                    _.map(CONTINENT_TABLE_COLUMNS, (tableData): any => (
                       <TableHeadCell
                         key={tableData.key}
                         setSortBy={setSortBy}
@@ -69,7 +69,7 @@ function ContinentTable(props: any) {
                     return (
                       <tr key={country.name + index}>
                         {
-                                  _.map(TABLE_COLUMNS, (tableData): any => (
+                                  _.map(CONTINENT_TABLE_COLUMNS, (tableData): any => (
                                     <TableDataCell
                                       key={tableData.key}
                                       label={(country as any)[tableData.key]}

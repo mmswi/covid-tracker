@@ -1,8 +1,4 @@
-export const TABLE_COLUMNS = [
-  {
-    key: 'name',
-    label: 'Country',
-  },
+export const SHARED_TABLE_COLUMNS = [
   {
     key: 'people_fully_vaccinated',
     label: 'Ppl. fully vaccinated',
@@ -79,4 +75,20 @@ export const TABLE_COLUMNS = [
     key: 'extreme_poverty',
     label: 'Extreme poverty',
   },
+];
+
+export const CONTINENT_TABLE_COLUMNS = [
+  {
+    key: 'name',
+    label: 'Country',
+  },
+  ...SHARED_TABLE_COLUMNS,
+];
+
+export const COUNTRY_TABLE_COLUMNS = [
+  {
+    key: 'date',
+    label: 'Date',
+  },
+  ...SHARED_TABLE_COLUMNS,
 ];
