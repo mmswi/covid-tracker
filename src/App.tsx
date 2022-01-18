@@ -6,6 +6,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+import './helpers/axios-config';
 import './App.scss';
 import Country from './components/pages/Country/Country';
 import Home from './components/pages/Home/Home';
