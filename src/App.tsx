@@ -11,6 +11,7 @@ import './App.scss';
 import Country from './components/pages/Country/Country';
 import Home from './components/pages/Home/Home';
 import { getVaccineData } from './services/vaccineTrackerService';
+import ScrollToTop from './components/shared/ScrollToTop/ScrollToTop';
 
 function App() {
   const [data, setData] = useState(null);
@@ -33,6 +34,7 @@ function App() {
     <div className="App">
       <DataContext.Provider value={data}>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/name/:continent/:country" element={<Country />} />
