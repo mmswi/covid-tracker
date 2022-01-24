@@ -1,8 +1,7 @@
 import _ from 'lodash';
-// import PropTypes from 'prop-types';
 import { CURRENT_DATE } from '../../../dictionary/vaccineDataDictionary';
+import DateTooltip from '../DateTooltip/DateTooltip';
 import TableCellNavigation from '../TableCellNavigation/TableCellNavigation';
-import TableDataCell from '../TableDataCell/TableDataCell';
 import TableHeadCell from '../TableHeadCell/TableHeadCell';
 import './SortableTable.scss';
 
@@ -37,18 +36,22 @@ function SortableTable(props: any) {
               <tr key={country.name + index}>
                 {
                   _.map(tableColumns, (column): any => (
-                    <TableCellNavigation
-                      key={column.key}
-                      condition={_.includes(navColumnKeys, column.key)}
-                      href={`${column.key}/${continentKey}/${(country as any)[column.key]}`}
-                      render={() => (
-                        <TableDataCell
-                          label={(country as any)[column.key]}
-                          isTooltipVisible={currentDate === CURRENT_DATE}
-                          timeStamp={timeStamps[column.key]}
-                        />
-                      )}
-                    />
+                    <td>
+                      <TableCellNavigation
+                        key={column.key}
+                        condition={_.includes(navColumnKeys, column.key)}
+                        href={`${column.key}/${continentKey}/${(country as any)[column.key]}`}
+                        render={() => (
+                          <span>
+                            {(country as any)[column.key]}
+                            <DateTooltip
+                              isTooltipVisible={currentDate === CURRENT_DATE}
+                              timeStamp={timeStamps[column.key]}
+                            />
+                          </span>
+                        )}
+                      />
+                    </td>
 
                   ))
                   }
