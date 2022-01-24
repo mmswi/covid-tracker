@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import { CURRENT_DATE } from '../dictionary/vaccineDataDictionary';
-import { ContinentCountryDataGetterAttributesInterface, ContinentCountryDataInterface, CountryDataInterface } from '../interfaces/countryDataInteface';
+import {
+  ContinentCountryDataGetterAttributesInterface, ContinentCountryDataInterface, CountryDataInterface, CountryVaccineDataInteface,
+} from '../interfaces/countryDataInteface';
 
 const dayObject = {
   date: undefined,
@@ -244,6 +246,37 @@ function mapTableData(dataByContinent: any, date: any): any {
 
     return continentData;
   });
+}
+
+export function mapCountryTableData(countryData: CountryDataInterface): any {
+  if (!countryData) {
+    return [];
+  }
+
+  return _.map(countryData.data, (dayData: CountryVaccineDataInteface) => ({
+    date: dayData.date,
+    population: countryData.population,
+    aged_65_older: countryData.aged_65_older,
+    aged_70_older: countryData.aged_70_older,
+    cardiovasc_death_rate: countryData.cardiovasc_death_rate,
+    hospital_beds_per_thousand: countryData.hospital_beds_per_thousand,
+    population_density: countryData.population_density,
+    human_development_index: countryData.human_development_index,
+    life_expectancy: countryData.life_expectancy,
+    gdp_per_capita: countryData.gdp_per_capita,
+    extreme_poverty: countryData.extreme_poverty,
+    people_fully_vaccinated: dayData.people_fully_vaccinated,
+    people_fully_vaccinated_per_hundred: dayData.people_fully_vaccinated_per_hundred,
+    people_vaccinated: dayData.people_vaccinated,
+    people_vaccinated_per_hundred: dayData.people_vaccinated_per_hundred,
+    new_cases: dayData.new_cases,
+    new_deaths: dayData.new_deaths,
+    icu_patients: dayData.icu_patients,
+    icu_patients_per_million: dayData.icu_patients_per_million,
+    icuPatientsPerFullyVaccinatedPerHundred: getIcuPerFullyVacc(dayData),
+    total_boosters: dayData.total_boosters,
+    total_boosters_per_hundred: dayData.total_boosters_per_hundred,
+  }));
 }
 
 function getCountryData(data: any, date: any): any {
