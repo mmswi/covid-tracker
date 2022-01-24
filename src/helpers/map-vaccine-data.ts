@@ -214,33 +214,14 @@ function mapTableData(dataByContinent: any, date: any): any {
     const continentData: any = {
       continentName,
     };
-    continentData.countries = _.map(countries, (country: CountryDataInterface) => {
-      const countryData = getCountryDataByDate(country.data, date);
+    continentData.countries = _.map(countries, (countryData: CountryDataInterface) => {
+      const dayData = getCountryDataByDate(countryData.data, date);
+      const mergedDayObject = getMergedCountryDataObject(countryData, dayData);
 
       return {
-        name: country.location,
-        population: country.population,
-        aged_65_older: country.aged_65_older,
-        aged_70_older: country.aged_70_older,
-        cardiovasc_death_rate: country.cardiovasc_death_rate,
-        hospital_beds_per_thousand: country.hospital_beds_per_thousand,
-        population_density: country.population_density,
-        human_development_index: country.human_development_index,
-        life_expectancy: country.life_expectancy,
-        gdp_per_capita: country.gdp_per_capita,
-        extreme_poverty: country.extreme_poverty,
-        people_fully_vaccinated: countryData.people_fully_vaccinated,
-        people_fully_vaccinated_per_hundred: countryData.people_fully_vaccinated_per_hundred,
-        people_vaccinated: countryData.people_vaccinated,
-        people_vaccinated_per_hundred: countryData.people_vaccinated_per_hundred,
-        new_cases: countryData.new_cases,
-        new_deaths: countryData.new_deaths,
-        icu_patients: countryData.icu_patients,
-        icu_patients_per_million: countryData.icu_patients_per_million,
-        icuPatientsPerFullyVaccinatedPerHundred: getIcuPerFullyVacc(countryData),
-        total_boosters: countryData.total_boosters,
-        total_boosters_per_hundred: countryData.total_boosters_per_hundred,
-        time_stamps: country.time_stamps,
+        ...mergedDayObject,
+        name: countryData.location,
+        time_stamps: countryData.time_stamps,
       };
     });
 
@@ -253,8 +234,18 @@ export function mapCountryTableData(countryData: CountryDataInterface): any {
     return [];
   }
 
-  return _.map(countryData.data, (dayData: CountryVaccineDataInteface) => ({
-    date: dayData.date,
+  return _.map(countryData.data, (dayData: CountryVaccineDataInteface) => {
+    const mergedDayObject = getMergedCountryDataObject(countryData, dayData);
+
+    return {
+      ...mergedDayObject,
+      date: dayData.date,
+    };
+  });
+}
+
+function getMergedCountryDataObject(countryData: CountryDataInterface, dayData: CountryVaccineDataInteface): any {
+  return {
     population: countryData.population,
     aged_65_older: countryData.aged_65_older,
     aged_70_older: countryData.aged_70_older,
@@ -276,7 +267,7 @@ export function mapCountryTableData(countryData: CountryDataInterface): any {
     icuPatientsPerFullyVaccinatedPerHundred: getIcuPerFullyVacc(dayData),
     total_boosters: dayData.total_boosters,
     total_boosters_per_hundred: dayData.total_boosters_per_hundred,
-  }));
+  };
 }
 
 function getCountryDataByDate(data: any, date: any): any {
