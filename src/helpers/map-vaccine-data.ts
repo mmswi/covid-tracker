@@ -86,6 +86,14 @@ export function getContinentDataByName(data: any, continentName: string = ''): a
   return data[key] ? data[key] : {};
 }
 
+export function getCountryDataByName(data: any, countryName: string = ''): any {
+  if (!data) {
+    return null;
+  }
+
+  return _.find(data, ['location', countryName]);
+}
+
 function groupByObjectKey(dataObject: any, groupByKey: string, groupedObject: any) {
   const key = _.camelCase(groupByKey);
   const valueArray = groupedObject[key]?.values ? [...groupedObject[key].values, dataObject] : [dataObject];
