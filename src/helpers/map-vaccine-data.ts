@@ -215,7 +215,7 @@ function mapTableData(dataByContinent: any, date: any): any {
       continentName,
     };
     continentData.countries = _.map(countries, (country: CountryDataInterface) => {
-      const countryData = getCountryData(country.data, date);
+      const countryData = getCountryDataByDate(country.data, date);
 
       return {
         name: country.location,
@@ -279,7 +279,7 @@ export function mapCountryTableData(countryData: CountryDataInterface): any {
   }));
 }
 
-function getCountryData(data: any, date: any): any {
+function getCountryDataByDate(data: any, date: any): any {
   return _.find(data, ['date', date]) || {};
 }
 
