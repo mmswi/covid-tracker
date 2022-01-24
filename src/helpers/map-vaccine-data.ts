@@ -76,6 +76,16 @@ export function getContinentCountriesData(attributes: ContinentCountryDataGetter
   return continentData.countries;
 }
 
+export function getContinentDataByName(data: any, continentName: string = ''): any {
+  if (!data) {
+    return null;
+  }
+
+  const key = _.camelCase(continentName);
+
+  return data[key] ? data[key] : {};
+}
+
 function groupByObjectKey(dataObject: any, groupByKey: string, groupedObject: any) {
   const key = _.camelCase(groupByKey);
   const valueArray = groupedObject[key]?.values ? [...groupedObject[key].values, dataObject] : [dataObject];
